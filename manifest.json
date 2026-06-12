@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Pokémon Bot",
+  "version": "1.0.0",
+  "description": "Automated shiny hunter",
+  "permissions": [],
+  "action": {
+    "default_title": "Toggle Bot UI"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://pokelike.xyz/*"],
+      "js": ["dist/content.js"]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "pokelike-bot",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --format=iife --outfile=dist/content.js",
+    "watch": "esbuild src/index.ts --bundle --format=iife --outfile=dist/content.js --watch",
+    "format": "prettier --write .",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/chrome": "*",
+    "esbuild": "*",
+    "prettier": "*",
+    "prettier-plugin-organize-imports": "^4.3.0",
+    "typescript": "*"
+  },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-organize-imports"
+    ]
+  }
+}
