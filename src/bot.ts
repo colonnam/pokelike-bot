@@ -3,23 +3,22 @@ import { STATS, updateStatsUI } from "./stats.js";
 
 // ── Input ─────────────────────────────────────────────────────────────────
 
-export function pressKey(key: string, keyCode: number): void {
-  const opts = {
-    key,
-    code: `Key${key.toUpperCase()}`,
-    keyCode,
-    which: keyCode,
-    bubbles: true,
-  };
-  document.dispatchEvent(new KeyboardEvent("keydown", opts));
-  document.dispatchEvent(new KeyboardEvent("keyup", opts));
+export function clickResetButton(): void {
+  const btn = document.querySelector<HTMLButtonElement>(
+    'button[onclick="confirmResetRun()"]',
+  );
+  btn?.click();
+  const overlay = document.getElementById("reset-loading-overlay");
+  if (overlay) overlay.remove();
+  const catchScreen = document.getElementById("catch-screen");
+  catchScreen?.classList.remove("active")
 }
 
 // ── Game DOM queries ──────────────────────────────────────────────────────
 
 export function clickOpenButton(): void {
   const el = document
-    .querySelector('image[href="sprites/catchPokemon.png"]')
+    .querySelector('image[href="img/sprites/g1/pokeball.png"]')
     ?.closest("g");
   if (!el) return;
   ["pointerdown", "mousedown", "mouseup", "click"].forEach((type) =>
@@ -63,7 +62,8 @@ export function evaluateCards(): boolean {
   cards.forEach((c) => {
     if (c.querySelector(".shiny-badge")) STATS.shinies++;
   });
+
   updateStatsUI();
-  pressKey("r", 82);
+  clickResetButton();
   return false;
 }

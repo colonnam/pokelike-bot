@@ -24,19 +24,18 @@
   }
 
   // src/bot.ts
-  function pressKey(key, keyCode) {
-    const opts = {
-      key,
-      code: `Key${key.toUpperCase()}`,
-      keyCode,
-      which: keyCode,
-      bubbles: true
-    };
-    document.dispatchEvent(new KeyboardEvent("keydown", opts));
-    document.dispatchEvent(new KeyboardEvent("keyup", opts));
+  function clickResetButton() {
+    const btn = document.querySelector(
+      'button[onclick="confirmResetRun()"]'
+    );
+    btn?.click();
+    const overlay = document.getElementById("reset-loading-overlay");
+    if (overlay) overlay.remove();
+    const catchScreen = document.getElementById("catch-screen");
+    catchScreen?.classList.remove("active");
   }
   function clickOpenButton() {
-    const el2 = document.querySelector('image[href="sprites/catchPokemon.png"]')?.closest("g");
+    const el2 = document.querySelector('image[href="img/sprites/g1/pokeball.png"]')?.closest("g");
     if (!el2) return;
     ["pointerdown", "mousedown", "mouseup", "click"].forEach(
       (type) => el2.dispatchEvent(new MouseEvent(type, { bubbles: true }))
@@ -69,7 +68,7 @@
       if (c.querySelector(".shiny-badge")) STATS.shinies++;
     });
     updateStatsUI();
-    pressKey("r", 82);
+    clickResetButton();
     return false;
   }
 
@@ -298,6 +297,7 @@
   }
   function startOpenPoller() {
     openInterval = setInterval(() => {
+      console.log(isMenuOpen());
       if (!isMenuOpen()) clickOpenButton();
     }, CONFIG.openDelay);
   }

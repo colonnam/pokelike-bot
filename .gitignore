@@ -1,0 +1,22 @@
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Dépendances
+node_modules/
+
+# Logs
+npm-debug.log*
+*.log
+
+# Éditeurs / IDE
+.vscode/
+.idea/
+*.swp
+
+# Variables d'environnement
+.env
+.env.local
