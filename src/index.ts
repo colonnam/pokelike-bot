@@ -24,7 +24,6 @@ function startObserver(): void {
 
 function startOpenPoller(): void {
   openInterval = setInterval(() => {
-    console.log(isMenuOpen());
     if (!isMenuOpen()) clickOpenButton();
   }, CONFIG.openDelay);
 }

@@ -47,23 +47,32 @@ export function isTarget(card: HTMLElement): boolean {
 }
 
 export function evaluateCards(): boolean {
+
+  if (!CONFIG.shinyOnly ||!isStarterShiny()){
+      clickResetButton();
+      return false
+    }
+
   const cards = visibleCards();
   if (!cards.length) return false;
   STATS.encounters++;
-  const found = cards.find(isTarget);
+    cards.forEach((c) => {
+    if (c.querySelector(".shiny-badge")) STATS.shinies++;
+  });
+  updateStatsUI();
 
-  if (found) {
-    STATS.shinies++;
-    updateStatsUI();
+  if (cards.find(isTarget)) {
     console.log(`✨ FOUND: ${CONFIG.target}`);
     return true;
   }
 
-  cards.forEach((c) => {
-    if (c.querySelector(".shiny-badge")) STATS.shinies++;
-  });
-
-  updateStatsUI();
   clickResetButton();
   return false;
+}
+
+export function isStarterShiny():boolean{
+  const firstTeamSlot = document.querySelector(".team-slot");
+  return firstTeamSlot!
+  .querySelector("img")!
+  .src.includes("/shiny/");
 }

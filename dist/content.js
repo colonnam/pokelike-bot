@@ -54,22 +54,27 @@
     return name.toUpperCase().includes(CONFIG.target.toUpperCase()) && (!CONFIG.shinyOnly || shiny);
   }
   function evaluateCards() {
+    if (!CONFIG.shinyOnly || !isStarterShiny()) {
+      clickResetButton();
+      return false;
+    }
     const cards = visibleCards();
     if (!cards.length) return false;
     STATS.encounters++;
-    const found = cards.find(isTarget);
-    if (found) {
-      STATS.shinies++;
-      updateStatsUI();
-      console.log(`\u2728 FOUND: ${CONFIG.target}`);
-      return true;
-    }
     cards.forEach((c) => {
       if (c.querySelector(".shiny-badge")) STATS.shinies++;
     });
     updateStatsUI();
+    if (cards.find(isTarget)) {
+      console.log(`\u2728 FOUND: ${CONFIG.target}`);
+      return true;
+    }
     clickResetButton();
     return false;
+  }
+  function isStarterShiny() {
+    const firstTeamSlot = document.querySelector(".team-slot");
+    return firstTeamSlot.querySelector("img").src.includes("/shiny/");
   }
 
   // src/dom.ts
@@ -297,7 +302,6 @@
   }
   function startOpenPoller() {
     openInterval = setInterval(() => {
-      console.log(isMenuOpen());
       if (!isMenuOpen()) clickOpenButton();
     }, CONFIG.openDelay);
   }
